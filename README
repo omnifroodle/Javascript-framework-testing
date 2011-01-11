@@ -1,0 +1,7 @@
+you must have bundler installed
+
+bundle install
+
+to run the server (from the root folder):
+
+ruby server.rb
