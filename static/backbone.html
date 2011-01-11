@@ -1,0 +1,118 @@
+<!doctype html>
+<html dtr="ltr" lang="en">
+<head>
+<meta charset="utf-8"/>
+
+<title>Messages List</title>
+
+<script src="/javascripts/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/underscore.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/backbone.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/ICanHaz.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+<div id="container">
+
+
+<script type='text/javascript'>
+  $(function(){
+    window.Message = Backbone.Model.extend({
+      clear: function() {
+        this.destroy();
+        this.view.remove();
+      }
+    });
+    window.MessageList = Backbone.Collection.extend({ 
+      model: Message, 
+      url: '/messages' 
+    });
+    window.Messages = new MessageList;
+    window.MessageRow = Backbone.View.extend({
+      tagName: "li",
+
+      className: "row",
+
+      template: _.template($('#message-template').html()),
+  
+      events: {
+        "click span.message-destroy"   : "clear",
+      },
+
+      initialize: function() {
+        _.bindAll(this, "render");
+        this.model.bind('change', this.render);
+        this.model.view = this;
+      },
+
+      render: function() {
+        console.log('render');
+        $(this.el).html(this.template(this.model.toJSON()));
+        return this;
+      },
+
+      clear: function() {
+        this.model.clear();
+      }
+
+
+    });
+    window.AppView = Backbone.View.extend({
+      el: $("body"),
+      initialize: function() {
+        _.bindAll(this, 'addOne', 'addAll', 'render');
+        Messages.bind('add',     this.addOne);
+        Messages.bind('refresh', this.addAll);
+        Messages.bind('all',     this.render);
+
+        Messages.fetch();
+
+      },
+
+    render: function() {},
+      addOne: function(message) {
+      var view = new MessageRow({model: message, id: "message-row-" + message.id});
+        this.$('#messages').append(view.render().el);
+      },
+      addAll: function() {
+        Messages.each(this.addOne);
+      },
+      empty: function() {
+        this.$('#messages').empty();
+      }
+    }); 
+    window.App = new AppView;
+
+  });
+
+
+</script>
+
+
+<h1>Listing messages</h1>
+
+
+
+<ul class="listings" id="messages">
+
+
+
+</ul>
+
+</div>
+    <!-- Templates -->
+
+    <script type="text/template" id="message-template">
+      <div class="message">
+        <div class="display">
+        <div ="message-content"><%= message %></div>
+          <span class="message-destroy">xxx</span>
+        </div>
+        <div class="edit" style="display:none">
+          <input class="message-input" type="text" value="" />
+        </div>
+      </div>
+    </script>
+
+</body>
+</html>
