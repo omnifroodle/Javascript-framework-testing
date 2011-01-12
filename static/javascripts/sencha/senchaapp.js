@@ -21,6 +21,27 @@ Ext.setup({
   icon: '',
   glossOnIcon: false,
   onReady: function () {
+    Ext.regModel('Currency', {
+      fields: [
+        {name: 'id', type: 'int'},
+        {name: 'name', type: 'string'},
+        {name: 'abbreviation', type: 'string'},
+        {name: 'html', type: 'string'},
+        {name: 'to_euro', type: 'float'}
+      ]
+    });
+    var store = new Ext.data.Store({
+      model: 'Currency',
+      proxy: {
+        type: 'rest',
+        url: '/currencies',
+        // reader: {
+        //   type: 'json'
+        // }
+      }
+    });
+    store.load();
+    
     var converter_card = new Ext.form.FormPanel({
       title: 'Converter',
       cls: 'converter',
@@ -35,31 +56,17 @@ Ext.setup({
           xtype: 'selectfield',
           name: 'source',
           label: 'Source',
-          options: [
-            {
-              text: "US Dollars",
-              value: "USD"
-            },
-            {
-              text: "British Pound",
-              value: "BPD"
-            }
-          ]
+          store: store,
+          displayField: "name",
+          valueField: "id"
         },
         {
           xtype: 'selectfield',
           name: 'target',
           label: 'Target',
-          options: [
-            {
-              text: "US Dollars",
-              value: "USD"
-            },
-            {
-              text: "British Pound",
-              value: "GBP"
-            }
-          ]
+          store: store,
+          displayField: "name",
+          valueField: "id"
         },
         {
           xtype: 'numberfield',
@@ -69,30 +76,45 @@ Ext.setup({
       ]
     });
     
-    var rates_card = new Ext.Component({
+    var rates_card = new Ext.Panel({
       title: 'Rates',
       cls: 'currencies',
-      scroll: 'vertical',
-      tpl: [
-        '<tpl for=".">',
-          '<div class="currency">',
-            '<div class="name">{name}</div>',
-            '<div class="abbreviation">{abbreviation}</div>',
-            '<div class="symbol">{html}</div>',
-            '<div class="to_euro">{to_euro}</div>',
-          '</div>',
-        '</tpl>'
-      ]
+      layout: 'fit',
+      items: new Ext.DataView({
+        store: store,
+        tpl: [
+          '<table>',
+            '<thead>',
+              '<tr class="currency header">',
+                '<th><span>Name</span></th>',
+                '<th><span>Abbreviation</span></th>',
+                '<th><span>Symbol</span></th>',
+                '<th><span>Conversion</span></th>',
+              '</tr>',
+            '</thead>',
+            '<tbody>',
+              '<tpl for=".">',
+                '<tr class="currency">',
+                  '<td class="name"><span>{name}</span></td>',
+                  '<td class="abbreviation"><span>{abbreviation}</span></td>',
+                  '<td class="symbol"><span>{html}</span></td>',
+                  '<td class="to_euro"><span>{to_euro}</span></td>',
+                '</tr>',
+              '</tpl>',
+            '</tbody>',
+          '</table>'
+        ],
+        autoHeight: true,
+        itemSelector:'div.thumb-wrap',
+        emptyText: 'No Rates to Display'
+      })
     });
-    
-    rates_card.update(currencies);
     
     var panel = new Ext.TabPanel({
       fullscreen: true,
       cardAnimation: 'slide',
       items: [converter_card, rates_card]
     });
-    
     
   }
 });

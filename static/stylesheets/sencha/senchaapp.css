@@ -1,6 +1,39 @@
-.currency {
-  min-height: 2.5em;
+.currencies {
+  padding: 1.0em;
 }
-.currency .source {}
-.currency .target {}
-.currency .conversion {}
+
+.currency {
+  border-left: 1px solid #dcdcdc;
+}
+.currency.header {
+  
+}
+.currency.header > th {
+  background: #F7F7F7;
+  border-top: 1px solid #ffffff;
+  font-weight: bold;
+  padding: 0.7em;
+  
+  border-right: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
+}
+.currency > td {
+  padding: 0.7em;
+  
+  border-right: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
+}
+.currency .name {
+  background: #F7F7F7;
+}
+.currency .abbreviation {
+  text-align: center;
+  background: #ffffff;
+}
+.currency .symbol {
+  text-align: center;
+  background: #ffffff;
+}
+.currency .to_euro {
+  background: #ffffff;
+}
