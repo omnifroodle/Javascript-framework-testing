@@ -8,8 +8,7 @@ Ext.setup({
       title: 'Converter',
       cls: 'converter',
       scroll: 'vertical',
-      tpl: [
-      ]
+      html: "woot"
     });
     
     var rates_card = new Ext.Component({
