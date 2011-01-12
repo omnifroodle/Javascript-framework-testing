@@ -13,19 +13,44 @@ controllers = []
 
 colors = %w{red green blue}
 
-message_id = 20
-messages = Array.new(message_id) do |i|
+messages = Array.new(20) do |i|
   id = i + 1
 	{:message => "I am number #{id}", :color => colors[rand(colors.size)], :id => id}
 end
 
 # you must have this method for the restful server to work correctly
 def next_messages_id
-  message_id += 1
+  messages.max{|a,b| a[:id] <=> b[:id]}[:id] + 1
 end
 
 controllers << 'messages'
 
+#
+# currencies
+#
+
+currencies = [
+  {
+    :id => 1, 
+    :name => 'European Euro', 
+    :abbreviation => 'EURO', 
+    :html => '&#8352', 
+    :to_euro => 1.0
+  },
+  {
+    :id => 2, 
+    :name => 'United States Dollar', 
+    :abbreviation => 'USD', 
+    :html => '&#36', 
+    :to_euro => 0.7711
+  }
+]
+
+def next_currency_id
+  currencies.max{|a,b| a[:id] <=> b[:id]}[:id] + 1
+end
+
+controllers << 'currencies'
 
 
 # our restful server
