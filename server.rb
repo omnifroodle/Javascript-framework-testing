@@ -5,31 +5,59 @@ require 'sinatra'
 require 'json'
 
 set :public, File.dirname(__FILE__) + '/static'
+controllers = []
+
+#
+# messages
+#
 
 colors = %w{red green blue}
 
-data = Array.new(20) do |i|
+message_id = 20
+messages = Array.new(message_id) do |i|
   id = i + 1
 	{:message => "I am number #{id}", :color => colors[rand(colors.size)], :id => id}
 end
 
-get '/messages' do
-	content_type :json
-	data.to_json
+# you must have this method for the restful server to work correctly
+def next_messages_id
+  message_id += 1
 end
 
-get '/messages/:id' do
-	content_type :json
-	data[params[:id].to_i].to_json
-end
+controllers << 'messages'
 
-post '/messages/:id' do
-  puts 'post request' 
-  content_type :json
-	data[params[:id].to_i].to_json
-end
 
-delete '/messages/:id' do
-  data.delete_if{|a| a[:id] == params[:id].to_i}  
-  content_type :json
+
+# our restful server
+controllers.each do |collection|
+  get "/#{collection}" do
+    content_type :json
+    eval(collection).to_json
+  end
+
+  get '/#{collection}"/:id' do
+    content_type :json
+    eval(collection)[params[:id].to_i].to_json
+  end
+
+  # not tested
+  post '/#{collection}"/:id' do
+    content_type :json
+    id = params[:id].to_i
+    collection_index = eval(collection).index{|x| x[:id] == id}
+    eval(collection)[collection_index] = params
+    eval(collection)[params[:id].to_i].to_json
+  end
+
+  # not tested
+  put '/#{collection}"/:id' do
+    content_type :json
+    iteam = params
+    eval(collection).update(:id => eval("next_#{collection}_id"))
+  end
+
+  delete '/#{collection}"/:id' do
+    eval(collection).delete_if{|a| a[:id] == params[:id].to_i}  
+    content_type :json
+  end
 end
