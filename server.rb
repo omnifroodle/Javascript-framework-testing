@@ -50,7 +50,7 @@ controllers.each do |collection|
   end
 
   # not tested
-  put "/#{collection}/:id" do
+  put "/#{collection}" do
     content_type :json
     iteam = params
     eval(collection).update(:id => eval("next_#{collection}_id"))
