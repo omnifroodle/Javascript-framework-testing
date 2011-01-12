@@ -5,26 +5,31 @@
 
 <title>Messages List</title>
 
-<script src="/javascripts/backbone/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/backbone/underscore.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/backbone/backbone.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/backbone/backbone-app.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/backbone/jquery.min.js"></script>
+<script src="/javascripts/jqtouch/jqtouch.min.js"></script>
+<script src="/javascripts/backbone/underscore.js"></script>
+<script src="/javascripts/backbone/backbone.js"></script>
+<script src="/javascripts/backbone/backbone-app.js"></script>
+
+<link rel="stylesheet" href="/stylesheets/backbone/theme.css" />
+
 
 </head>
 <body>
 
-<div id="container">
-  <h1>Listing messages</h1>
+<div id="container" class="current">
+    <div class="toolbar">
+        <h1>Listing messages</h1>
+    </div>
+
+
+    <ul class="listings rounded" id="messages">
 
 
 
-  <ul class="listings" id="messages">
+    </ul>
 
-
-
-  </ul>
-
-  </div>
+</div>
   <!-- Templates -->
 
   <script type="text/template" id="message-template">
