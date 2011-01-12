@@ -43,6 +43,27 @@ currencies = [
     :abbreviation => 'USD', 
     :html => '&#36', 
     :to_euro => 0.7711
+  },
+  {
+    :id => 3, 
+    :name => 'British Pounds Sterling', 
+    :abbreviation => 'GBP', 
+    :html => '&#163', 
+    :to_euro => 1.2030
+  },
+  {
+    :id => 4, 
+    :name => 'Japanese Yen', 
+    :abbreviation => 'YEN', 
+    :html => '&#xA4', 
+    :to_euro => 0.00925129154
+  },
+  {
+    :id => 5, 
+    :name => 'Turkish Lira', 
+    :abbreviation => 'TRY', 
+    :html => '&#x20A4', 
+    :to_euro => 0.4886
   }
 ]
 
