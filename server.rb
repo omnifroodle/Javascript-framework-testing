@@ -35,13 +35,13 @@ controllers.each do |collection|
     eval(collection).to_json
   end
 
-  get '/#{collection}"/:id' do
+  get "/#{collection}/:id" do
     content_type :json
     eval(collection)[params[:id].to_i].to_json
   end
 
   # not tested
-  post '/#{collection}"/:id' do
+  post "/#{collection}/:id" do
     content_type :json
     id = params[:id].to_i
     collection_index = eval(collection).index{|x| x[:id] == id}
@@ -50,13 +50,13 @@ controllers.each do |collection|
   end
 
   # not tested
-  put '/#{collection}"/:id' do
+  put "/#{collection}/:id" do
     content_type :json
     iteam = params
     eval(collection).update(:id => eval("next_#{collection}_id"))
   end
 
-  delete '/#{collection}"/:id' do
+  delete "/#{collection}/:id" do
     eval(collection).delete_if{|a| a[:id] == params[:id].to_i}  
     content_type :json
   end
