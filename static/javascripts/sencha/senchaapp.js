@@ -42,6 +42,24 @@ Ext.setup({
     });
     store.load();
     
+    var convert = function() {
+      var start = Number(Ext.getCmp("source_amount").getValue());
+      var source = store.getById(Ext.getCmp("source").getValue());
+      var target = store.getById(Ext.getCmp("target").getValue());
+      if (target != null && source != null) {
+        var source_rate = Number(source.get("to_euro"));
+        var target_rate = Number(target.get("to_euro"));
+        
+        var in_euro = start * source_rate;
+        var in_target = in_euro / target_rate;
+        
+        Ext.getCmp("target_amount").setValue("" + in_target);
+      }
+      else {
+        alert("Please select a source and target");
+      }
+    }
+    
     var converter_card = new Ext.form.FormPanel({
       title: 'Converter',
       cls: 'converter',
@@ -50,7 +68,9 @@ Ext.setup({
         {
           xtype: 'numberfield',
           name: 'source_amount',
-          label: 'Source Amount'
+          label: 'Source Amount',
+          id: "source_amount",
+          value: "10"
         },
         {
           xtype: 'selectfield',
@@ -58,7 +78,8 @@ Ext.setup({
           label: 'Source',
           store: store,
           displayField: "name",
-          valueField: "id"
+          valueField: "id",
+          id: "source",
         },
         {
           xtype: 'selectfield',
@@ -66,13 +87,22 @@ Ext.setup({
           label: 'Target',
           store: store,
           displayField: "name",
-          valueField: "id"
+          valueField: "id",
+          id: "target",
         },
         {
           xtype: 'numberfield',
           name: 'target_amount',
-          label: 'Target Amount'
+          label: 'Target Amount',
+          id: "target_amount",
+          value: 0
         },
+        {
+          xtype: 'button',
+          ui: 'confirm',
+          text: 'Convert',
+          handler: convert
+        }
       ]
     });
     
@@ -80,7 +110,7 @@ Ext.setup({
       title: 'Rates',
       cls: 'currencies',
       layout: 'fit',
-      items: new Ext.DataView({
+      items: [new Ext.DataView({
         store: store,
         tpl: [
           '<table>',
@@ -107,7 +137,7 @@ Ext.setup({
         autoHeight: true,
         itemSelector:'div.thumb-wrap',
         emptyText: 'No Rates to Display'
-      })
+      })]
     });
     
     var panel = new Ext.TabPanel({
