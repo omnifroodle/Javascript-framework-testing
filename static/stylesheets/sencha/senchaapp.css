@@ -1,0 +1,6 @@
+.currency {
+  min-height: 2.5em;
+}
+.currency .source {}
+.currency .target {}
+.currency .conversion {}

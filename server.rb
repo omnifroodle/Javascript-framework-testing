@@ -34,7 +34,7 @@ currencies = [
     :id => 1, 
     :name => 'European Euro', 
     :abbreviation => 'EURO', 
-    :html => '&#8352', 
+    :html => '&#8354', 
     :to_euro => 1.0
   },
   {
