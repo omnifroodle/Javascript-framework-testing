@@ -1,0 +1,42 @@
+<!doctype html>
+<html dtr="ltr" lang="en">
+<head>
+<meta charset="utf-8"/>
+
+<title>Messages List</title>
+<script data-main="main" src="bb-currency/scripts/require-jquery.js"></script>
+
+
+
+<link rel="stylesheet" href="/stylesheets/backbone/theme.css" />
+
+
+</head>
+<body>
+
+<div id="container" class="current">
+    <div class="toolbar">
+        <h1>Listing messages</h1>
+    </div>
+
+
+    <ul class="listings rounded" id="messages">
+
+
+
+    </ul>
+
+</div>
+  <!-- Templates -->
+
+  <script type="text/template" id="message-template">
+    <div class="message">
+      <div class="display">
+        <div ="message-content"><%= message %></div>
+        <span class="message-destroy">xxx</span>
+      </div>
+    </div>
+  </script>
+
+</body>
+</html>
