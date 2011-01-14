@@ -9,7 +9,7 @@ define(
       
       
       
-      models.currency = Backbone.Model.extend({
+      models.message = Backbone.Model.extend({
 
         clear: function() {
           this.destroy();

@@ -1,20 +1,20 @@
 // example of a view loaded by requirejs
 define(
   //requirements
-  ['../shovel', '../models/currency'],
+  ['../shovel', '../models/message'],
 
   function(shovel){
 
     // declare the collections attributes here
     var clist = Backbone.Collection.extend({ 
-      url: '/currencies',
-      model: shovel.models.currency
+      url: '/messages',
+      model: shovel.models.message
     });
 
 
 
     shovel.collections = (function(collections) {
-      collections.currency_list = new clist;
+      collections.messages = new clist;
       return collections;
     }(shovel.collections || {}));
     return shovel;
